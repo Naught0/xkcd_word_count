@@ -3,7 +3,6 @@ import json
 import re
 
 import numpy
-import matplotlib.pyplot as plot; plot.rcdefaults()
 import matplotlib.pyplot as plot
 
 from typing import Tuple
@@ -91,7 +90,7 @@ def _count() -> Tuple[str, int]:
     # Joins all the processed text and then counts the individual words
     counter = collections.Counter(' '.join(d.values()).split())
 
-    return counter.most_common(20)
+    return counter.most_common(10)
 
 
 def make_graph(top_words: tuple):
@@ -103,15 +102,16 @@ def make_graph(top_words: tuple):
     Args:
         top_words (tuple): Tuple[List(str, int)] generated via :func:`_count()`
     """
-    objs = [x[0] for x in top_words]
-    y_pos = numpy.arange(len(objs))
+    with plot.xkcd():
+        objs = [x[0] for x in top_words]
+        y_pos = numpy.arange(len(objs))
 
-    data = [x[1] for x in top_words]
+        data = [x[1] for x in top_words]
 
-    plot.barh(y_pos, data, align='center', alpha=1)
-    plot.yticks(y_pos, objs)
-    plot.xlabel('Ocurrences')
-    plot.title('Word frequency in XKCD comics')
+        plot.barh(y_pos, data, align='center', alpha=1)
+        plot.yticks(y_pos, objs)
+        plot.xlabel('Ocurrences')
+        plot.title('Word frequency in XKCD comics')
 
     plot.show()
 
